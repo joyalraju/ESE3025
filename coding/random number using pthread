@@ -1,0 +1,42 @@
+/*
+ ============================================================================
+ Name        : pthreadtest.c
+ Author      : joyal raju
+ Version     :
+ Copyright   : Your copyright notice
+ Description : pthread in C, Ansi-style
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+
+int a, b;
+void *rfun(void *val) {
+	int *num1 = (int *) val;
+	srand(time(0));
+	while (1) {
+		*num1 = (rand() % b);
+	}
+}
+int main() {
+	int x = 0;
+	printf("Enter required number of random numbers \n");
+	scanf("%d", &a);
+	printf("Enter the range \n");
+	scanf("%d", &b);
+	pthread_t thread1;
+	if (pthread_create(&thread1, NULL, &rfun, &x) != 0) {
+		printf("Failed to create player1\n");
+		return 1;
+	}
+	int i = 0;
+	while (i < a) {
+		printf("random number: %d \n", x);
+		i++;
+		usleep(1000);
+	}
+	return 0;
+}
